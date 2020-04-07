@@ -27,6 +27,13 @@ More information on managing Postman environments and variables can be found [he
 |`wsse_user` 	|-                           |Environment    |Environment      |`user@domain.org`  |
 |`wsse_password`|- 				       	     |Environment    |Environment      |`myPassword`       |
 
+And before start using api you have to send two request in advance!
+
+1. In **Users** group **GET** `salt`
+1. In **Users** group **POST** `login`
+
+Thus this all variables are computed and rest of request will work 😎
+
 ### Contribute
 
 We welcome your contributions!  

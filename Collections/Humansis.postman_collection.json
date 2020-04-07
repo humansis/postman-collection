@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "1b042d68-69c6-43f8-93fe-42bfabbeb493",
+		"name": "Humansis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									"const password = pm.environment.get(\"wsse_password\");",
+									"const salt = pm.environment.get(\"wsse_salt\");",
+									"",
+									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
+									"",
+									"function saltedPassword(password, salt) {",
+									"\tconst salted = password + '{' + salt + '}';",
+									"\t",
+									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+									"",
+									"\tfor(var i = 1; i <= 4999; i++) {",
+									"\t\tlet newInput = Buffer.concat([",
+									"\t\t\tBuffer.from(digest, 'hex'), ",
+									"\t\t\tBuffer.from(salted, 'utf8')",
+									"\t\t]);",
+									"\t\t",
+									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+									"\t}",
+									"\treturn Buffer.from(digest, 'hex').toString('base64');",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"value": "{{country}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"{{wsse_user}}\",\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/login",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Donors",
+			"item": [
+				{
+					"name": "Donors",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/donors",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"donors"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "{{wsse_salted_password}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Donor",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Projects",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"projects"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "{{wsse_salted_password}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Sectors",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Beneficiary",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Beneficiaries",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Country",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Households",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CriteriaDistributions",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CriteriaDistributionsCamps",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Distributions",
+			"item": [
+				{
+					"name": "Distributions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendors",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendors"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "{{wsse_salted_password}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "General Relief",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Modalities",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Reporting",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Common",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Version",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Export",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Location",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Organization",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Transaction",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Booklets",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Product",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vendors",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Single Vendor",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vouchers",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Single Voucher",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "default",
+			"item": [],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f4c62cbf-bdca-4b5b-a264-4488ad91e370",
+				"type": "text/javascript",
+				"exec": [
+					"const user = pm.variables.get(\"wsse_user\");",
+					"const password = pm.variables.get(\"wsse_password\");",
+					"const salt = pm.variables.get(\"wsse_salt\");",
+					"const header = getWsseHeader(user, password, salt);",
+					"",
+					"pm.environment.set(\"wsse_header\", header);",
+					"",
+					"function iso8601(time) {",
+					"    return time.toISOString().split('.')[0] + 'Z';",
+					"}",
+					"",
+					"function saltedPassword(password, salt) {",
+					"    const salted = password + '{' + salt + '}';",
+					"    ",
+					"    let digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+					"",
+					"    for(var i = 1; i <= 4999; i++) {",
+					"        let newInput = Buffer.concat([",
+					"            Buffer.from(digest, 'hex'), ",
+					"            Buffer.from(salted, 'utf8')",
+					"        ]);",
+					"        ",
+					"        const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+					"        digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+					"    }",
+					"    return Buffer.from(digest, 'hex').toString('base64');",
+					"}",
+					"",
+					"function hashSHA1(s) {",
+					"    const byteArray = Buffer.from(s, 'utf8');",
+					"    var wordArray = CryptoJS.lib.WordArray.create(byteArray);",
+					"",
+					"    return CryptoJS.SHA1(wordArray).toString(CryptoJS.enc.Base64);",
+					"}",
+					"",
+					"function generateRandonNonce(){",
+					"    var chars = \"0123456789abcdef\";",
+					"\tvar randomString = '';",
+					"",
+					"\tfor (var i=0; i<16; i++) {",
+					"\t\tvar rnum = Math.floor(Math.random() * chars.length);",
+					"\t\trandomString += chars.substring(rnum,rnum+1);",
+					"\t}",
+					"\t",
+					"\treturn randomString;",
+					"}",
+					"",
+					"function getWsseHeader(user, password, salt) {",
+					"    const timestamp = iso8601(new Date());    ",
+					"    const nonce = generateRandonNonce();",
+					"    var sPassword = saltedPassword(password, salt);",
+					"",
+					"    const mix = (nonce + timestamp + sPassword);",
+					"    const digest = hashSHA1(mix);",
+					"    ",
+					"    const nonce64 = Buffer.from(nonce, 'utf8').toString(\"base64\");",
+					"    ",
+					"    console.log(`UsernameToken Username=\"${user}\", PasswordDigest=\"${digest}\", Nonce=\"${nonce64}\", Created=\"${timestamp}\"`);",
+					"    return `UsernameToken Username=\"${user}\", PasswordDigest=\"${digest}\", Nonce=\"${nonce64}\", Created=\"${timestamp}\"`;",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4d5db017-efaf-4150-80a2-1d0752ec3e6f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

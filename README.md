@@ -34,6 +34,10 @@ We welcome your contributions!
 
 ## See Also
 
+[Manual how to add collection](Manuals/collections_manual.md)
+
+[Manual how to add environments](Manuals/enviroments_manual.md)
+
 [Humansis API documentation](https://api-demo.humansis.org/swg/doc)
 
 [Postman API development tool](https://www.getpostman.com/)

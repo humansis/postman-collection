@@ -471,7 +471,7 @@
 								"type": "text"
 							},
 							{
-								"key": "wsse",
+								"key": "x-wsse",
 								"value": "{{wsse_header}}",
 								"type": "text"
 							},

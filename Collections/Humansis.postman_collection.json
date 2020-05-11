@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "1b042d68-69c6-43f8-93fe-42bfabbeb493",
-		"name": "Humansis",
+		"_postman_id": "56631bd5-ca16-4760-ae50-bd2fd873e101",
+		"name": "Humansis shared",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -43,9 +43,6 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"followRedirects": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -62,12 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\":\"{{wsse_user}}\",\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n\t\"email\":\"{{wsse_user}}\",\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/login",
@@ -107,6 +99,10 @@
 								"value": "{{country}}"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/salt/{{wsse_user}}",
 							"host": [
@@ -122,8 +118,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Donors",
@@ -161,8 +156,12 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/donors",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/donors?",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -192,13 +191,11 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Donor",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Projects",
@@ -236,8 +233,12 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects?",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -267,43 +268,35 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Sectors",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Beneficiary",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Beneficiaries",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Country",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Households",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "CriteriaDistributions",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "CriteriaDistributionsCamps",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Distributions",
@@ -341,8 +334,12 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendors",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendors?",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -394,88 +391,320 @@
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "General Relief",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Modalities",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Reporting",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Common",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Version",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Export",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Location",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Organization",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Transaction",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Booklets",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Product",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Vendors",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Single Vendor",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Vouchers",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "Single Voucher",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "default",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
+		},
+		{
+			"name": "Smartcard",
+			"item": [
+				{
+					"name": "Register smartcard",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"value": "{{country}}",
+								"type": "text"
+							},
+							{
+								"key": "wsse",
+								"value": "{{wsse_header}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"beneficiary\": {{beneficiary_id}},\n\t\"serialNumber\": \"{{smartcard_serial_number}}\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Smartcard overview",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"state\": \"active\",\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": {{product_id}},\n  \"value\": 500,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}/purchase",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_id}}",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit money",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": 100,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}/deposit",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_id}}",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change smartcard state",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"state\": \"active\",\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8d57f2d-4fc6-4d87-913d-7831a254dc51",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "976d4888-52a1-443e-9cd1-09a2333f5816",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	],
 	"event": [
@@ -558,6 +787,5 @@
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

@@ -76,6 +76,75 @@
 					"response": []
 				},
 				{
+					"name": "Vendor app Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									"const password = pm.environment.get(\"wsse_password\");",
+									"const salt = pm.environment.get(\"wsse_salt\");",
+									"",
+									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
+									"",
+									"function saltedPassword(password, salt) {",
+									"\tconst salted = password + '{' + salt + '}';",
+									"\t",
+									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+									"",
+									"\tfor(var i = 1; i <= 4999; i++) {",
+									"\t\tlet newInput = Buffer.concat([",
+									"\t\t\tBuffer.from(digest, 'hex'), ",
+									"\t\t\tBuffer.from(salted, 'utf8')",
+									"\t\t]);",
+									"\t\t",
+									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+									"\t}",
+									"\treturn Buffer.from(digest, 'hex').toString('base64');",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"{{wsse_user}}\",\n\t\"salted_password\":\"{{wsse_salted_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/login",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Salt",
 					"event": [
 						{
@@ -111,6 +180,51 @@
 							"path": [
 								"{{api}}",
 								"{{firewall}}",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor app salt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
 								"salt",
 								"{{wsse_user}}"
 							]

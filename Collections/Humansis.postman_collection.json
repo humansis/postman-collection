@@ -402,7 +402,59 @@
 		},
 		{
 			"name": "Households",
-			"item": []
+			"item": [
+				{
+					"name": "Create household",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"household\": {\n    \"livelihood\": \"0\",\n    \"longitude\": \"0\",\n    \"latitude\": \"0\",\n    \"notes\": null,\n    \"country_specific_answers\": [\n      {\n        \"country_specific\": {\n          \"id\": 1,\n          \"type\": \"number\",\n          \"field\": \"IDPoor\"\n        },\n        \"answer\": null\n      },\n      {\n        \"country_specific\": {\n          \"id\": 2,\n          \"type\": \"text\",\n          \"field\": \"equityCardNo\"\n        },\n        \"answer\": null\n      }\n    ],\n    \"beneficiaries\": [\n      {\n        \"id\": null,\n        \"local_given_name\": \"First name\",\n        \"local_family_name\": \"Surname\",\n        \"en_given_name\": null,\n        \"en_family_name\": null,\n        \"gender\": \"1\",\n        \"date_of_birth\": \"13-05-2000\",\n        \"residency_status\": \"resident\",\n        \"status\": \"1\",\n        \"vulnerability_criteria\": [],\n        \"phones\": [\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Landline\"\n          },\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Mobile\"\n          }\n        ],\n        \"national_ids\": [\n          {\n            \"id_number\": null,\n            \"id_type\": \"ID Card\"\n          }\n        ],\n        \"profile\": {\n          \"photo\": \"\"\n        },\n        \"referral_type\": null,\n        \"referral_comment\": null\n      }\n    ],\n    \"income_level\": null,\n    \"household_locations\": [\n      {\n        \"id\": null,\n        \"location_group\": \"current\",\n        \"type\": \"residence\",\n        \"address\": {\n          \"id\": null,\n          \"number\": \"10\",\n          \"street\": \"Ulice\",\n          \"postcode\": \"60200\",\n          \"location\": {\n            \"adm1\": 1,\n            \"adm2\": 1,\n            \"adm3\": 1,\n            \"adm4\": 1\n          }\n        },\n        \"camp_address\": null\n      }\n    ],\n    \"food_consumption_score\": null,\n    \"coping_strategies_index\": null,\n    \"debt_level\": null,\n    \"support_received_types\": [\"1\"],\n    \"support_date_received\": null,\n    \"shelter_status\": \"1\",\n    \"assets\": [\"2\"]\n  },\n  \"projects\": [1]\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"households"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "CriteriaDistributions",
@@ -857,7 +909,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"beneficiary\": {{beneficiary_id}},\n\t\"serialNumber\": \"{{smartcard_serial_number}}\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": "{\n\t\"beneficiaryId\": {{beneficiary_id}},\n\t\"serialNumber\": \"{{smartcard_serial_number}}\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards",
@@ -948,7 +1000,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"productId\": {{product_id}},\n  \"value\": 500,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": "{\n  \"productId\": {{product_id}},\n  \"value\": 500,\n  \"quantity\": 50.25,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}/purchase",

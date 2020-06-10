@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "56631bd5-ca16-4760-ae50-bd2fd873e101",
+		"_postman_id": "1baba681-8395-4754-996c-f1c8585e4f3d",
 		"name": "Humansis shared",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -76,7 +76,7 @@
 					"response": []
 				},
 				{
-					"name": "Vendor app Login",
+					"name": "Login [vendor app]",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -145,6 +145,75 @@
 					"response": []
 				},
 				{
+					"name": "Login [offine app]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									"const password = pm.environment.get(\"wsse_password\");",
+									"const salt = pm.environment.get(\"wsse_salt\");",
+									"",
+									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
+									"",
+									"function saltedPassword(password, salt) {",
+									"\tconst salted = password + '{' + salt + '}';",
+									"\t",
+									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+									"",
+									"\tfor(var i = 1; i <= 4999; i++) {",
+									"\t\tlet newInput = Buffer.concat([",
+									"\t\t\tBuffer.from(digest, 'hex'), ",
+									"\t\t\tBuffer.from(salted, 'utf8')",
+									"\t\t]);",
+									"\t\t",
+									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+									"\t}",
+									"\treturn Buffer.from(digest, 'hex').toString('base64');",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/login",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Salt",
 					"event": [
 						{
@@ -188,7 +257,7 @@
 					"response": []
 				},
 				{
-					"name": "Vendor app salt",
+					"name": "Salt [vendor app]",
 					"event": [
 						{
 							"listen": "test",
@@ -224,6 +293,51 @@
 								"{{api}}",
 								"{{firewall}}",
 								"vendor-app",
+								"v1",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salt [offline app]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
 								"v1",
 								"salt",
 								"{{wsse_user}}"
@@ -352,7 +466,75 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects?",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"projects"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "{{wsse_salted_password}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Projects [offline app]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -389,12 +571,143 @@
 			"item": []
 		},
 		{
-			"name": "Beneficiary",
-			"item": []
-		},
-		{
 			"name": "Beneficiaries",
-			"item": []
+			"item": [
+				{
+					"name": "Beneficiaries by distribution [offline app]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/distributions/{{distribution_id}}/beneficiaries",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"distributions",
+								"{{distribution_id}}",
+								"beneficiaries"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Beneficiary by its smartcard [offline app]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/beneficiary",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}",
+								"beneficiary"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{wsse_user}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Country",
@@ -530,6 +843,61 @@
 									"value": "{{wsse_salted_password}}",
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Distributions by Project [offline app]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects/{{project_id}}/distributions",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"projects",
+								"{{project_id}}",
+								"distributions"
 							]
 						}
 					},
@@ -754,14 +1122,8 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": ""
-								}
-							]
+							"mode": "raw",
+							"raw": ""
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export/distribution?id=12&locale=en&type=pdf",
@@ -796,7 +1158,61 @@
 		},
 		{
 			"name": "Location",
-			"item": []
+			"item": [
+				{
+					"name": "Upcoming distributions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/location/upcoming_distribution",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"location",
+								"upcoming_distribution"
+							]
+						},
+						"description": "Distributions are grouped by locations in given country (in header)"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Organization",
@@ -886,25 +1302,25 @@
 			"name": "Smartcard",
 			"item": [
 				{
-					"name": "Register smartcard",
+					"name": "Register smartcard [offline app]",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "country",
-								"value": "{{country}}",
-								"type": "text"
+								"type": "text",
+								"value": "{{country}}"
 							},
 							{
 								"key": "x-wsse",
-								"value": "{{wsse_header}}",
-								"type": "text"
+								"type": "text",
+								"value": "{{wsse_header}}"
 							},
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -922,19 +1338,13 @@
 								"offline-app",
 								"v1",
 								"smartcards"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": ""
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Smartcard overview",
+					"name": "Smartcard overview [offline app]",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -957,10 +1367,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"state\": \"active\",\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -970,14 +1380,57 @@
 								"offline-app",
 								"v1",
 								"smartcards",
-								"{{smartcard_id}}"
+								"{{smartcard_serial_number}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Purchase product",
+					"name": "Blocked smartcards [vendor app]",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/smartcards/blocked",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"smartcards",
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase product [offline app]",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1000,10 +1453,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"productId\": {{product_id}},\n  \"value\": 500,\n  \"quantity\": 50.25,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1},\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}/purchase",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -1013,7 +1466,7 @@
 								"offline-app",
 								"v1",
 								"smartcards",
-								"{{smartcard_id}}",
+								"{{smartcard_serial_number}}",
 								"purchase"
 							]
 						}
@@ -1047,17 +1500,15 @@
 							"raw": "{\n  \"value\": 100,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}/deposit",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/smartcards/{{smartcard_serial_number}}/deposit",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
 							"path": [
 								"{{api}}",
 								"{{firewall}}",
-								"offline-app",
-								"v1",
 								"smartcards",
-								"{{smartcard_id}}",
+								"{{smartcard_serial_number}}",
 								"deposit"
 							]
 						}
@@ -1067,7 +1518,7 @@
 				{
 					"name": "Change smartcard state",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "country",
@@ -1091,7 +1542,7 @@
 							"raw": "{\n  \"state\": \"active\",\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_id}}",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -1101,7 +1552,7 @@
 								"offline-app",
 								"v1",
 								"smartcards",
-								"{{smartcard_id}}"
+								"{{smartcard_serial_number}}"
 							]
 						}
 					},

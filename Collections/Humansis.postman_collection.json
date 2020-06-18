@@ -1,13 +1,101 @@
 {
 	"info": {
 		"_postman_id": "1baba681-8395-4754-996c-f1c8585e4f3d",
-		"name": "Humansis shared",
+		"name": "Humansis web app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Users",
 			"item": [
+				{
+					"name": "Salt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salt [vendor app]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Login",
 					"event": [
@@ -139,208 +227,6 @@
 								"vendor-app",
 								"v1",
 								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login [offine app]",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									"const password = pm.environment.get(\"wsse_password\");",
-									"const salt = pm.environment.get(\"wsse_salt\");",
-									"",
-									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
-									"",
-									"function saltedPassword(password, salt) {",
-									"\tconst salted = password + '{' + salt + '}';",
-									"\t",
-									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
-									"",
-									"\tfor(var i = 1; i <= 4999; i++) {",
-									"\t\tlet newInput = Buffer.concat([",
-									"\t\t\tBuffer.from(digest, 'hex'), ",
-									"\t\t\tBuffer.from(salted, 'utf8')",
-									"\t\t]);",
-									"\t\t",
-									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
-									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
-									"\t}",
-									"\treturn Buffer.from(digest, 'hex').toString('base64');",
-									"}",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/login",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Salt",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/salt/{{wsse_user}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"salt",
-								"{{wsse_user}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Salt [vendor app]",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/salt/{{wsse_user}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"vendor-app",
-								"v1",
-								"salt",
-								"{{wsse_user}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Salt [offline app]",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/salt/{{wsse_user}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"salt",
-								"{{wsse_user}}"
 							]
 						}
 					},
@@ -766,6 +652,57 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Household changes",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"household\": {\n    \"livelihood\": \"0\",\n    \"longitude\": \"0\",\n    \"latitude\": \"0\",\n    \"notes\": null,\n    \"country_specific_answers\": [\n      {\n        \"country_specific\": {\n          \"id\": 1,\n          \"type\": \"number\",\n          \"field\": \"IDPoor\"\n        },\n        \"answer\": null\n      },\n      {\n        \"country_specific\": {\n          \"id\": 2,\n          \"type\": \"text\",\n          \"field\": \"equityCardNo\"\n        },\n        \"answer\": null\n      }\n    ],\n    \"beneficiaries\": [\n      {\n        \"id\": null,\n        \"local_given_name\": \"First name\",\n        \"local_family_name\": \"Surname\",\n        \"en_given_name\": null,\n        \"en_family_name\": null,\n        \"gender\": \"1\",\n        \"date_of_birth\": \"13-05-2000\",\n        \"residency_status\": \"resident\",\n        \"status\": \"1\",\n        \"vulnerability_criteria\": [],\n        \"phones\": [\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Landline\"\n          },\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Mobile\"\n          }\n        ],\n        \"national_ids\": [\n          {\n            \"id_number\": null,\n            \"id_type\": \"ID Card\"\n          }\n        ],\n        \"profile\": {\n          \"photo\": \"\"\n        },\n        \"referral_type\": null,\n        \"referral_comment\": null\n      }\n    ],\n    \"income_level\": null,\n    \"household_locations\": [\n      {\n        \"id\": null,\n        \"location_group\": \"current\",\n        \"type\": \"residence\",\n        \"address\": {\n          \"id\": null,\n          \"number\": \"10\",\n          \"street\": \"Ulice\",\n          \"postcode\": \"60200\",\n          \"location\": {\n            \"adm1\": 1,\n            \"adm2\": 1,\n            \"adm3\": 1,\n            \"adm4\": 1\n          }\n        },\n        \"camp_address\": null\n      }\n    ],\n    \"food_consumption_score\": null,\n    \"coping_strategies_index\": null,\n    \"debt_level\": null,\n    \"support_received_types\": [\"1\"],\n    \"support_date_received\": null,\n    \"shelter_status\": \"1\",\n    \"assets\": [\"2\"]\n  },\n  \"projects\": [1]\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"households"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1015,6 +952,76 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Import template in xlsx",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/import/households/project/{{project_id}}?token=&email=adminexample.org",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"import",
+								"households",
+								"project",
+								"{{project_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "email",
+									"value": "adminexample.org"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1082,6 +1089,73 @@
 								{
 									"key": "officialDistributions",
 									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export of transaction distribution (in xls)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export?type=xlsx&transactionDistribution=6",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"export"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "xlsx"
+								},
+								{
+									"key": "transactionDistribution",
+									"value": "6"
 								}
 							]
 						}

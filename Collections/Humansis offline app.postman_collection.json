@@ -1,0 +1,630 @@
+{
+	"info": {
+		"_postman_id": "3f500f9a-62a7-47c2-b322-045088843e61",
+		"name": "Humansis offline app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Salt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/salt/{{wsse_user}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"salt",
+								"{{wsse_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									"const password = pm.environment.get(\"wsse_password\");",
+									"const salt = pm.environment.get(\"wsse_salt\");",
+									"",
+									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
+									"",
+									"function saltedPassword(password, salt) {",
+									"\tconst salted = password + '{' + salt + '}';",
+									"\t",
+									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+									"",
+									"\tfor(var i = 1; i <= 4999; i++) {",
+									"\t\tlet newInput = Buffer.concat([",
+									"\t\t\tBuffer.from(digest, 'hex'), ",
+									"\t\t\tBuffer.from(salted, 'utf8')",
+									"\t\t]);",
+									"\t\t",
+									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+									"\t}",
+									"\treturn Buffer.from(digest, 'hex').toString('base64');",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "daf0b686-6c71-4af6-ae39-c0e53412596a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/login",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Projects",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Beneficiaries",
+			"item": [
+				{
+					"name": "Beneficiaries by distribution",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/distributions/{{distribution_id}}/beneficiaries",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"distributions",
+								"{{distribution_id}}",
+								"beneficiaries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Beneficiary by its smartcard",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/beneficiary",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}",
+								"beneficiary"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Distributions",
+			"item": [
+				{
+					"name": "Distributions by Project",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects/{{project_id}}/distributions",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"projects",
+								"{{project_id}}",
+								"distributions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Smartcard",
+			"item": [
+				{
+					"name": "Register smartcard",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"beneficiaryId\": {{beneficiary_id}},\n\t\"serialNumber\": \"{{smartcard_serial_number}}\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Smartcard overview",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1},\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8d57f2d-4fc6-4d87-913d-7831a254dc51",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "976d4888-52a1-443e-9cd1-09a2333f5816",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f4c62cbf-bdca-4b5b-a264-4488ad91e370",
+				"type": "text/javascript",
+				"exec": [
+					"const user = pm.variables.get(\"wsse_user\");",
+					"const password = pm.variables.get(\"wsse_password\");",
+					"const salt = pm.variables.get(\"wsse_salt\");",
+					"const header = getWsseHeader(user, password, salt);",
+					"",
+					"pm.environment.set(\"wsse_header\", header);",
+					"",
+					"function iso8601(time) {",
+					"    return time.toISOString().split('.')[0] + 'Z';",
+					"}",
+					"",
+					"function saltedPassword(password, salt) {",
+					"    const salted = password + '{' + salt + '}';",
+					"    ",
+					"    let digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
+					"",
+					"    for(var i = 1; i <= 4999; i++) {",
+					"        let newInput = Buffer.concat([",
+					"            Buffer.from(digest, 'hex'), ",
+					"            Buffer.from(salted, 'utf8')",
+					"        ]);",
+					"        ",
+					"        const wordArray = CryptoJS.lib.WordArray.create(newInput);",
+					"        digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
+					"    }",
+					"    return Buffer.from(digest, 'hex').toString('base64');",
+					"}",
+					"",
+					"function hashSHA1(s) {",
+					"    const byteArray = Buffer.from(s, 'utf8');",
+					"    var wordArray = CryptoJS.lib.WordArray.create(byteArray);",
+					"",
+					"    return CryptoJS.SHA1(wordArray).toString(CryptoJS.enc.Base64);",
+					"}",
+					"",
+					"function generateRandonNonce(){",
+					"    var chars = \"0123456789abcdef\";",
+					"\tvar randomString = '';",
+					"",
+					"\tfor (var i=0; i<16; i++) {",
+					"\t\tvar rnum = Math.floor(Math.random() * chars.length);",
+					"\t\trandomString += chars.substring(rnum,rnum+1);",
+					"\t}",
+					"\t",
+					"\treturn randomString;",
+					"}",
+					"",
+					"function getWsseHeader(user, password, salt) {",
+					"    const timestamp = iso8601(new Date());    ",
+					"    const nonce = generateRandonNonce();",
+					"    var sPassword = saltedPassword(password, salt);",
+					"",
+					"    const mix = (nonce + timestamp + sPassword);",
+					"    const digest = hashSHA1(mix);",
+					"    ",
+					"    const nonce64 = Buffer.from(nonce, 'utf8').toString(\"base64\");",
+					"    ",
+					"    console.log(`UsernameToken Username=\"${user}\", PasswordDigest=\"${digest}\", Nonce=\"${nonce64}\", Created=\"${timestamp}\"`);",
+					"    return `UsernameToken Username=\"${user}\", PasswordDigest=\"${digest}\", Nonce=\"${nonce64}\", Created=\"${timestamp}\"`;",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4d5db017-efaf-4150-80a2-1d0752ec3e6f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

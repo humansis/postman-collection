@@ -324,6 +324,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1}\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}",
+								"purchase"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -341,6 +385,124 @@
 					"listen": "test",
 					"script": {
 						"id": "976d4888-52a1-443e-9cd1-09a2333f5816",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Vendors",
+			"item": [
+				{
+					"name": "Vendor overview",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1}\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/vendors/{{vendor_id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"vendors",
+								"{{vendor_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendors",
+			"item": [
+				{
+					"name": "Purchase",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"createdAt\":\"2020-07-09T14:21:29+0200\",\n\t\t\"products\":[\n\t\t\t{\"id\":11,\"quantity\":1.0,\"value\":1.0},\n\t\t\t{\"id\":12,\"quantity\":1.0,\"value\":1.0}\n\t\t],\n\t\t\"vendorId\":1,\n\t\t\"vouchers\":[1,2]\n\t}\n]\n"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/vouchers/purchase",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"vouchers",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c8e31c3-efe3-4975-8f4c-c778881540ea",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "34e153b5-5529-4c6d-a9f1-c1c2c325ca6c",
 						"type": "text/javascript",
 						"exec": [
 							""

@@ -52,51 +52,6 @@
 					"response": []
 				},
 				{
-					"name": "Salt [vendor app]",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/salt/{{wsse_user}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"vendor-app",
-								"v1",
-								"salt",
-								"{{wsse_user}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Login",
 					"event": [
 						{
@@ -157,75 +112,6 @@
 							"path": [
 								"{{api}}",
 								"{{firewall}}",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login [vendor app]",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									"const password = pm.environment.get(\"wsse_password\");",
-									"const salt = pm.environment.get(\"wsse_salt\");",
-									"",
-									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
-									"",
-									"function saltedPassword(password, salt) {",
-									"\tconst salted = password + '{' + salt + '}';",
-									"\t",
-									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
-									"",
-									"\tfor(var i = 1; i <= 4999; i++) {",
-									"\t\tlet newInput = Buffer.concat([",
-									"\t\t\tBuffer.from(digest, 'hex'), ",
-									"\t\t\tBuffer.from(salted, 'utf8')",
-									"\t\t]);",
-									"\t\t",
-									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
-									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
-									"\t}",
-									"\treturn Buffer.from(digest, 'hex').toString('base64');",
-									"}",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"username\":\"{{wsse_user}}\",\n\t\"salted_password\":\"{{wsse_salted_password}}\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/login",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"vendor-app",
-								"v1",
 								"login"
 							]
 						}
@@ -308,10 +194,6 @@
 			]
 		},
 		{
-			"name": "Donor",
-			"item": []
-		},
-		{
 			"name": "Projects",
 			"item": [
 				{
@@ -360,244 +242,12 @@
 								"{{api}}",
 								"{{firewall}}",
 								"projects"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "email",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "{{wsse_salted_password}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Projects [offline app]",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"projects"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "email",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "{{wsse_salted_password}}",
-									"disabled": true
-								}
 							]
 						}
 					},
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "Sectors",
-			"item": []
-		},
-		{
-			"name": "Beneficiaries",
-			"item": [
-				{
-					"name": "Beneficiaries by distribution [offline app]",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/distributions/{{distribution_id}}/beneficiaries",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"distributions",
-								"{{distribution_id}}",
-								"beneficiaries"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "email",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Beneficiary by its smartcard [offline app]",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/beneficiary",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"smartcards",
-								"{{smartcard_serial_number}}",
-								"beneficiary"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "email",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Country",
-			"item": []
 		},
 		{
 			"name": "Households",
@@ -668,7 +318,7 @@
 						}
 					],
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [
 							{
 								"key": "country",
@@ -691,28 +341,22 @@
 							"raw": "{\n  \"household\": {\n    \"livelihood\": \"0\",\n    \"longitude\": \"0\",\n    \"latitude\": \"0\",\n    \"notes\": null,\n    \"country_specific_answers\": [\n      {\n        \"country_specific\": {\n          \"id\": 1,\n          \"type\": \"number\",\n          \"field\": \"IDPoor\"\n        },\n        \"answer\": null\n      },\n      {\n        \"country_specific\": {\n          \"id\": 2,\n          \"type\": \"text\",\n          \"field\": \"equityCardNo\"\n        },\n        \"answer\": null\n      }\n    ],\n    \"beneficiaries\": [\n      {\n        \"id\": null,\n        \"local_given_name\": \"First name\",\n        \"local_family_name\": \"Surname\",\n        \"en_given_name\": null,\n        \"en_family_name\": null,\n        \"gender\": \"1\",\n        \"date_of_birth\": \"13-05-2000\",\n        \"residency_status\": \"resident\",\n        \"status\": \"1\",\n        \"vulnerability_criteria\": [],\n        \"phones\": [\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Landline\"\n          },\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Mobile\"\n          }\n        ],\n        \"national_ids\": [\n          {\n            \"id_number\": null,\n            \"id_type\": \"ID Card\"\n          }\n        ],\n        \"profile\": {\n          \"photo\": \"\"\n        },\n        \"referral_type\": null,\n        \"referral_comment\": null\n      }\n    ],\n    \"income_level\": null,\n    \"household_locations\": [\n      {\n        \"id\": null,\n        \"location_group\": \"current\",\n        \"type\": \"residence\",\n        \"address\": {\n          \"id\": null,\n          \"number\": \"10\",\n          \"street\": \"Ulice\",\n          \"postcode\": \"60200\",\n          \"location\": {\n            \"adm1\": 1,\n            \"adm2\": 1,\n            \"adm3\": 1,\n            \"adm4\": 1\n          }\n        },\n        \"camp_address\": null\n      }\n    ],\n    \"food_consumption_score\": null,\n    \"coping_strategies_index\": null,\n    \"debt_level\": null,\n    \"support_received_types\": [\"1\"],\n    \"support_date_received\": null,\n    \"shelter_status\": \"1\",\n    \"assets\": [\"2\"]\n  },\n  \"projects\": [1]\n}"
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households/1/changes",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
 							"path": [
 								"{{api}}",
 								"{{firewall}}",
-								"households"
+								"households",
+								"1",
+								"changes"
 							]
 						}
 					},
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "CriteriaDistributions",
-			"item": []
-		},
-		{
-			"name": "CriteriaDistributionsCamps",
-			"item": []
 		},
 		{
 			"name": "Distributions",
@@ -786,7 +430,89 @@
 					"response": []
 				},
 				{
-					"name": "Distributions by Project [offline app]",
+					"name": "Number of beneficiaries reached by criteria",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"distribution_type\": \"0\",\n  \"criteria\": [\n    {\n      \"condition_string\": \"=\",\n      \"field_string\": \"Custom Location\",\n      \"target\": \"Household\",\n      \"table_string\": \"countrySpecific\",\n      \"value_string\": \"hoseiwa\",\n      \"weight\": 1,\n      \"type\": \"text\"\n    }\n  ],\n  \"threshold\": 1\n}\n"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/distributions/criteria/project/{{projectId}}/number",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"distributions",
+								"criteria",
+								"project",
+								"{{projectId}}",
+								"number"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Beneficiaries",
+			"item": [
+				{
+					"name": "Beneficiaries by distribution",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -823,18 +549,68 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects/{{project_id}}/distributions",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/distributions/{{distribution_id}}/beneficiaries",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
 							"path": [
 								"{{api}}",
 								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"projects",
-								"{{project_id}}",
-								"distributions"
+								"distributions",
+								"{{distribution_id}}",
+								"beneficiaries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete beneficiaries",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ids\":[5706,5707,5708,5709,5710,5711,5712,5713,5714,5715,5716,5717,5718,5719,5720,5721,5722,5723,5724,5725,5726,5727,5728,5729,5730,5731,5732,5733,5734,5735,5736,5737,5738,5739,5740,5741,5742,5743,5744,5745,5746,5747,5748,5749,5750,5751,5752,5753,5754,5755,5756,5757,5758,5759,5760,5761,5762,5763,5764,5765,5766,5767,5768,5769,5770,5771,5772,5773,5774,5775,5776,5777,5778,5779,5780,5781,5782,5783,5784,5785,5786,5787,5788,5789,5790,5791,5792,5793,5794,5795,5796,5797,5798,5799,5800,5801,5802,5803,5804,5805]}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households/delete",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"households",
+								"delete"
 							]
 						}
 					},
@@ -865,26 +641,68 @@
 			]
 		},
 		{
-			"name": "General Relief",
-			"item": []
-		},
-		{
-			"name": "Modalities",
-			"item": []
-		},
-		{
-			"name": "Reporting",
-			"item": []
-		},
-		{
-			"name": "Common",
-			"item": []
-		},
-		{
 			"name": "Import",
 			"item": [
 				{
-					"name": "Import of beneficiaries",
+					"name": "Household Import Template (in xlsx)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export?type=xlsx&householdsTemplate=true",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"export"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "xlsx"
+								},
+								{
+									"key": "householdsTemplate",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Household Import  - step 1, preview",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -925,6 +743,71 @@
 									"src": ""
 								}
 							]
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/import/households/project/{{project_id}}?token=&email=adminexample.org",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"import",
+								"households",
+								"project",
+								"{{project_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "email",
+									"value": "adminexample.org"
+								}
+							]
+						},
+						"description": "Import preview based on import file"
+					},
+					"response": []
+				},
+				{
+					"name": "Household import - step 2, processing",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mapping\": {\n        \"address_street\": \"A\",\n        \"address_number\": \"B\",\n        \"address_postcode\": \"C\",\n        \"camp\": \"D\",\n        \"tent_number\": \"E\",\n        \"livelihood\": \"F\",\n        \"income_level\": \"G\",\n        \"food_consumption_score\": \"H\",\n        \"coping_strategies_index\": \"I\",\n        \"notes\": \"J\",\n        \"latitude\": \"K\",\n        \"longitude\": \"L\",\n        \"location\": {\n            \"adm1\": \"M\",\n            \"adm2\": \"N\",\n            \"adm3\": \"O\",\n            \"adm4\": \"P\"\n        },\n        \"beneficiaries\": {\n            \"local_given_name\": \"Q\",\n            \"local_family_name\": \"R\",\n            \"en_given_name\": \"S\",\n            \"en_family_name\": \"T\",\n            \"gender\": \"U\",\n            \"status\": \"V\",\n            \"residency_status\": \"W\",\n            \"date_of_birth\": \"X\",\n            \"vulnerability_criteria\": \"Y\",\n            \"phone1_type\": \"Z\",\n            \"phone1_prefix\": \"AA\",\n            \"phone1_number\": \"AB\",\n            \"phone1_proxy\": \"AC\",\n            \"phone2_type\": \"AD\",\n            \"phone2_prefix\": \"AE\",\n            \"phone2_number\": \"AF\",\n            \"phone2_proxy\": \"AG\",\n            \"national_id_type\": \"AH\",\n            \"national_id_number\": \"AI\"\n        },\n        \"member_f-0-2\": \"AJ\",\n        \"member_f-2-5\": \"AK\",\n        \"member_f-6-17\": \"AL\",\n        \"member_f-18-64\": \"AM\",\n        \"member_f-65-99\": \"AN\",\n        \"member_m-0-2\": \"AO\",\n        \"member_m-2-5\": \"AP\",\n        \"member_m-6-17\": \"AQ\",\n        \"member_m-18-64\": \"AR\",\n        \"member_m-65-99\": \"AS\",\n        \"shelter_status\": \"AT\",\n        \"assets\": \"AU\",\n        \"debt_level\": \"AV\",\n        \"support_received_types\": \"AW\",\n        \"support_date_received\": \"AX\"\n    },\n  \"tmpFile\": \"phpZqIOVA\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/import/households/project/{{project_id}}?token=&email=adminexample.org",
@@ -954,7 +837,7 @@
 					"response": []
 				},
 				{
-					"name": "Import template in xlsx",
+					"name": "Household import - step 3, verification",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -997,7 +880,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/import/households/project/{{project_id}}?token=&email=adminexample.org",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/import/households/project/{{project_id}}?token={{import_token}}&email=adminexample.org",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -1012,7 +895,7 @@
 							"query": [
 								{
 									"key": "token",
-									"value": ""
+									"value": "{{import_token}}"
 								},
 								{
 									"key": "email",
@@ -1029,7 +912,7 @@
 			"name": "Export",
 			"item": [
 				{
-					"name": "Export of distribution (in xls)",
+					"name": "Export of distributions (in xlsx)",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1089,6 +972,67 @@
 								{
 									"key": "officialDistributions",
 									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export of beneficiaries (in xlsx)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"filters\":{\"filter\":[],\"sort\":{\"sort\":null,\"direction\":null},\"pageIndex\":0,\"pageSize\":-1}}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export?type=xlsx&beneficiaries=true",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"export"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "xlsx"
+								},
+								{
+									"key": "beneficiaries",
+									"value": "true"
 								}
 							]
 						}
@@ -1227,6 +1171,67 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Export of distributed vouchers (in xlsx)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export?type=xlsx&voucherDistribution=56",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"export"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "xlsx"
+								},
+								{
+									"key": "voucherDistribution",
+									"value": "56"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1289,27 +1294,7 @@
 			]
 		},
 		{
-			"name": "Organization",
-			"item": []
-		},
-		{
-			"name": "Transaction",
-			"item": []
-		},
-		{
-			"name": "Booklets",
-			"item": []
-		},
-		{
-			"name": "Product",
-			"item": []
-		},
-		{
 			"name": "Vendors",
-			"item": []
-		},
-		{
-			"name": "Single Vendor",
 			"item": []
 		},
 		{
@@ -1369,184 +1354,8 @@
 			]
 		},
 		{
-			"name": "Single Voucher",
-			"item": []
-		},
-		{
-			"name": "Smartcard",
+			"name": "Smartcards",
 			"item": [
-				{
-					"name": "Register smartcard [offline app]",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"beneficiaryId\": {{beneficiary_id}},\n\t\"serialNumber\": \"{{smartcard_serial_number}}\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"smartcards"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Smartcard overview [offline app]",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"smartcards",
-								"{{smartcard_serial_number}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Blocked smartcards [vendor app]",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/smartcards/blocked",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"vendor-app",
-								"v1",
-								"smartcards",
-								"blocked"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Purchase product [offline app]",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1},\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"smartcards",
-								"{{smartcard_serial_number}}",
-								"purchase"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Deposit money",
 					"request": {
@@ -1571,7 +1380,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"value\": 100,\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": "{\n  \"value\": 100,\n  \"distributionId\": {{distribution_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/smartcards/{{smartcard_serial_number}}/deposit",
@@ -1655,14 +1464,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "default",
-			"item": []
-		},
-		{
-			"name": "Version",
-			"item": []
 		}
 	],
 	"event": [

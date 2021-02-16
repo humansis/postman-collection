@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "3f500f9a-62a7-47c2-b322-045088843e61",
-		"name": "Humansis offline app",
+		"_postman_id": "8bb147e6-e91f-4fee-8da6-d9244d42b0fb",
+		"name": "Humansis user app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -32,10 +32,6 @@
 								"value": "{{country}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/salt/{{wsse_user}}",
 							"host": [
@@ -132,7 +128,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Projects",
@@ -170,10 +167,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects",
 							"host": [
@@ -190,7 +183,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Beneficiaries",
@@ -228,10 +222,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/distributions/{{distribution_id}}/beneficiaries",
 							"host": [
@@ -283,10 +273,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/beneficiary",
 							"host": [
@@ -304,8 +290,64 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update Beneficiary Referral",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": {{beneficiary_id}},\n\t\"referral_comment\":\"test\",\n\t\"referral_type\":5\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/beneficiaries/{{beneficiary_id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"beneficiaries",
+								"{{beneficiary_id}}"
+							]
+						},
+						"description": "enum class ReferralType(\r\n    @StringRes val textId: Int\r\n) {\r\n    @SerializedName(\"1\") HEALTH(R.string.referral_type_health),\r\n    @SerializedName(\"2\") PROTECTION(R.string.referral_type_protection),\r\n    @SerializedName(\"3\") SHELTER(R.string.referral_type_shelter),\r\n    @SerializedName(\"4\") NUTRITION(R.string.referral_type_nutrition),\r\n    @SerializedName(\"5\") OTHER(R.string.referral_type_other);\r\n}"
+					},
+					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Distributions",
@@ -343,10 +385,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects/{{project_id}}/distributions",
 							"host": [
@@ -400,7 +438,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"ids\": [...]}"
+							"raw": "{\n    \"ids\": [\n        6\n    ]\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/distributions/generalrelief/distributed",
@@ -415,6 +453,62 @@
 								"distributions",
 								"generalrelief",
 								"distributed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Booklet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json; charset=utf-8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\": \"KHM_Integra PT_05-02-2021_batch000002\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/booklets/assign/{{distribution_id}} /{{beneficiary_id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"booklets",
+								"assign",
+								"{{distribution_id}} ",
+								"{{beneficiary_id}}"
 							]
 						}
 					},
@@ -442,13 +536,14 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Smartcard",
 			"item": [
 				{
-					"name": "Register smartcard",
+					"name": "Assign Smartcard",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -490,9 +585,9 @@
 					"response": []
 				},
 				{
-					"name": "Smartcard overview",
+					"name": "Distribute Smartcard",
 					"request": {
-						"method": "GET",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "country",
@@ -513,7 +608,51 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n\t\"distributionId\": {{distribution_id}},\n\t\"value\": 1.0,\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/deposit",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"offline-app",
+								"v1",
+								"smartcards",
+								"{{smartcard_serial_number}}",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Smartcard",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"state\":\"inactive\",\n    \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}",
@@ -527,50 +666,6 @@
 								"v1",
 								"smartcards",
 								"{{smartcard_serial_number}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Purchase product",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1},\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"smartcards",
-								"{{smartcard_serial_number}}",
-								"purchase"
 							]
 						}
 					},
@@ -598,7 +693,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -681,5 +777,32 @@
 				]
 			}
 		}
-	]
+	],
+	"variable": [
+		{
+			"id": "4d36e7c5-693e-4692-bee6-d183750b3b09",
+			"key": "project_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "7ad07752-ebbd-490a-bb94-5d3e9679d398",
+			"key": "distribution_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "158b457e-634d-4b7a-b735-f8c2ae851d53",
+			"key": "beneficiary_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "76e4a102-1a1d-4e5c-afa1-9d6f94326670",
+			"key": "smartcard_serial_number",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
 }

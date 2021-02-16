@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2e24b28d-f1eb-4e13-902e-beb16300cb9b",
+		"_postman_id": "ff53c545-bb3d-4de2-827b-bb386d783394",
 		"name": "Humansis vendor app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -32,10 +32,6 @@
 								"value": "{{country}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/salt/{{wsse_user}}",
 							"host": [
@@ -122,162 +118,8 @@
 					},
 					"response": []
 				}
-			]
-		},
-		{
-			"name": "Projects",
-			"item": [
-				{
-					"name": "Projects",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"projects"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "email",
-									"value": "{{wsse_user}}",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "{{wsse_salted_password}}",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Distributions",
-			"item": [
-				{
-					"name": "Distributions by Project",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json; charset=utf-8"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/offline-app/v1/projects/{{project_id}}/distributions",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"offline-app",
-								"v1",
-								"projects",
-								"{{project_id}}",
-								"distributions"
-							]
-						}
-					},
-					"response": []
-				}
 			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Smartcard",
@@ -304,10 +146,6 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/smartcards/blocked",
 							"host": [
@@ -391,58 +229,11 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Vendors",
-			"item": [
-				{
-					"name": "Vendor overview",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							},
-							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1}\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/vendors/{{vendor_id}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"vendor-app",
-								"v1",
-								"vendors",
-								"{{vendor_id}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Vendors",
+			"name": "Vouchers",
 			"item": [
 				{
 					"name": "Purchase",
@@ -509,7 +300,176 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/products",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Booklets",
+			"item": [
+				{
+					"name": "Protected Booklets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/protected-booklets",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"protected-booklets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivated Booklets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/deactivated-booklets",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"deactivated-booklets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Booklets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"bookletCodes\":[\n\t\t\t\"KHM_Integra PT_05-02-2021_batch000002\",\n\t\t\t\"KHM_Integra PT_21-01-2021_batch000001\"\n\t\t]\n\t}\n]\n"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/deactivate-booklets",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v1",
+								"deactivate-booklets"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -592,5 +552,6 @@
 				]
 			}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

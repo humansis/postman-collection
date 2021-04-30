@@ -14,7 +14,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
@@ -55,7 +54,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									"const password = pm.environment.get(\"wsse_password\");",
 									"const salt = pm.environment.get(\"wsse_salt\");",
@@ -118,8 +116,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Smartcard",
@@ -212,7 +209,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b8d57f2d-4fc6-4d87-913d-7831a254dc51",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -222,15 +218,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "976d4888-52a1-443e-9cd1-09a2333f5816",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Vouchers",
@@ -283,7 +277,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5c8e31c3-efe3-4975-8f4c-c778881540ea",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -293,15 +286,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "34e153b5-5529-4c6d-a9f1-c1c2c325ca6c",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Products",
@@ -344,8 +335,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Booklets",
@@ -468,15 +458,156 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "Purchases",
+			"item": [
+				{
+					"name": "Smartcard Purchases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/smartcard-purchases?filter[id][]=1&filter[id][]=5",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v2",
+								"smartcard-purchases"
+							],
+							"query": [
+								{
+									"key": "filter[id][]",
+									"value": "1"
+								},
+								{
+									"key": "filter[id][]",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invoices",
+			"item": [
+				{
+					"name": "Invoices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/{{id}}/smartcard-redemption-batches",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v2",
+								"vendors",
+								"{{id}}",
+								"smartcard-redemption-batches"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "x-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/{{id}}/smartcard-redemption-candidates",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v2",
+								"vendors",
+								"{{id}}",
+								"smartcard-redemption-candidates"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "f4c62cbf-bdca-4b5b-a264-4488ad91e370",
 				"type": "text/javascript",
 				"exec": [
 					"const user = pm.variables.get(\"wsse_user\");",
@@ -545,13 +676,11 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "4d5db017-efaf-4150-80a2-1d0752ec3e6f",
 				"type": "text/javascript",
 				"exec": [
 					""
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

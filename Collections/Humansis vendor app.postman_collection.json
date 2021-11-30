@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ff53c545-bb3d-4de2-827b-bb386d783394",
+		"_postman_id": "560ff738-041e-4145-b959-5f41c9d1626b",
 		"name": "Humansis vendor app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,7 +26,7 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							}
@@ -86,7 +86,7 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
@@ -127,12 +127,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -141,6 +141,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -161,17 +176,17 @@
 					"response": []
 				},
 				{
-					"name": "Purchase product",
+					"name": "Purchase product Copy",
 					"request": {
-						"method": "PATCH",
+						"method": "POST",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -180,14 +195,34 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"products\": [\n  \t{\"productId\": {{product1_id}}, \"value\": 500, \"quantity\": 50.25},\n  \t{\"productId\": {{product2_id}}, \"value\": 0.3, \"quantity\": 1}\n  ],\n  \"vendorId\": {{vendor_id}},\n  \"createdAt\": \"2020-02-02T12:00:00+0200\"\n}"
+							"raw": "{\n  \"products\": [\n  \t{\"id\": 1, \"quantity\": 1, \"value\": 5, \"currency\": \"SYP\"},\n  \t{\"id\": 2, \"quantity\": 1, \"value\": 3, \"currency\": \"SYP\"}\n  ],\n  \"createdAt\": \"2021-10-21T14:00:00+00:00\",\n  \"vendorId\": 2,\n  \"beneficiaryId\": 249498,\n  \"assistanceId\": 150,\n  \"balanceBefore\": 100,\n  \"balanceAfter\": 92\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/smartcards/{{smartcard_serial_number}}/purchase",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v4/smartcards/04597DDA216A80/purchase",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -195,9 +230,9 @@
 								"{{api}}",
 								"{{firewall}}",
 								"vendor-app",
-								"v1",
+								"v4",
 								"smartcards",
-								"{{smartcard_serial_number}}",
+								"04597DDA216A80",
 								"purchase"
 							]
 						}
@@ -235,12 +270,12 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -249,6 +284,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -298,17 +348,17 @@
 			"name": "Products",
 			"item": [
 				{
-					"name": "Products",
+					"name": "Product Categories",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -317,10 +367,25 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/products",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v1/product-categories",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -329,6 +394,59 @@
 								"{{firewall}}",
 								"vendor-app",
 								"v1",
+								"product-categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Country",
+								"type": "text",
+								"value": "{{country}}"
+							},
+							{
+								"key": "X-wsse",
+								"type": "text",
+								"value": "{{wsse_header}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/products",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"vendor-app",
+								"v2",
 								"products"
 							]
 						}
@@ -346,12 +464,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -360,6 +478,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -384,12 +517,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -398,6 +531,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -422,12 +570,12 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -436,6 +584,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -469,12 +632,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -483,6 +646,21 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -522,12 +700,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -536,10 +714,25 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/{{id}}/smartcard-redemption-batches",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/1/smartcard-redemption-batches",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -549,7 +742,7 @@
 								"vendor-app",
 								"v2",
 								"vendors",
-								"{{id}}",
+								"1",
 								"smartcard-redemption-batches"
 							]
 						}
@@ -567,12 +760,12 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "country",
+								"key": "Country",
 								"type": "text",
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
+								"key": "X-wsse",
 								"type": "text",
 								"value": "{{wsse_header}}"
 							},
@@ -581,10 +774,25 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Version-Name",
+								"value": "2.5.1",
+								"type": "text"
+							},
+							{
+								"key": "Build-Number",
+								"value": "780",
+								"type": "text"
+							},
+							{
+								"key": "Build-Type",
+								"value": "debug",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/{{id}}/smartcard-redemption-candidates",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendor-app/v2/vendors/1/smartcard-redemption-candidates",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -594,7 +802,7 @@
 								"vendor-app",
 								"v2",
 								"vendors",
-								"{{id}}",
+								"1",
 								"smartcard-redemption-candidates"
 							]
 						}

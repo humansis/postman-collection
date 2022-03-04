@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1baba681-8395-4754-996c-f1c8585e4f3d",
+		"_postman_id": "7bf856f5-27d0-40f1-9744-988525e6d1fe",
 		"name": "Humansis web app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,78 +9,14 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "Salt",
+					"name": "JWT login",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "d672dabc-e380-49dc-bd16-74b8f773cbd0",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"pm.environment.set(\"wsse_salt\", jsonData.salt);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "country",
-								"type": "text",
-								"value": "{{country}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/salt/{{wsse_user}}",
-							"host": [
-								"{{prefix}}{{base_url}}"
-							],
-							"path": [
-								"{{api}}",
-								"{{firewall}}",
-								"salt",
-								"{{wsse_user}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
-								"exec": [
-									"const password = pm.environment.get(\"wsse_password\");",
-									"const salt = pm.environment.get(\"wsse_salt\");",
-									"",
-									"pm.environment.set(\"wsse_salted_password\", saltedPassword(password, salt));",
-									"",
-									"function saltedPassword(password, salt) {",
-									"\tconst salted = password + '{' + salt + '}';",
-									"\t",
-									"\tlet digest = CryptoJS.SHA512(salted).toString(CryptoJS.enc.Hex);",
-									"",
-									"\tfor(var i = 1; i <= 4999; i++) {",
-									"\t\tlet newInput = Buffer.concat([",
-									"\t\t\tBuffer.from(digest, 'hex'), ",
-									"\t\t\tBuffer.from(salted, 'utf8')",
-									"\t\t]);",
-									"\t\t",
-									"\t    const wordArray = CryptoJS.lib.WordArray.create(newInput);",
-									"\t    digest = CryptoJS.SHA512(wordArray).toString(CryptoJS.enc.Hex);",
-									"\t}",
-									"\treturn Buffer.from(digest, 'hex').toString('base64');",
-									"}",
-									""
+									"pm.environment.set(\"jwt_token\", jsonData.token);"
 								],
 								"type": "text/javascript"
 							}
@@ -88,21 +24,15 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "country",
-								"value": "{{country}}",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json; charset=utf-8",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\":\"{{wsse_user}}\",\n\t\"username\":\"{{wsse_user}}\",\n\t\"password\":\"{{wsse_salted_password}}\"\n}"
+							"raw": "{\n\t\"username\":\"{{jwt_user}}\",\n\t\"password\":\"{{jwt_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/login",
@@ -129,7 +59,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -146,22 +75,19 @@
 								"value": "{{country}}"
 							},
 							{
-								"key": "x-wsse",
-								"type": "text",
-								"value": "{{wsse_header}}"
-							},
-							{
 								"key": "Content-Type",
 								"type": "text",
 								"value": "application/json; charset=utf-8"
+							},
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/donors?",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/donors",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -202,7 +128,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -229,10 +154,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/projects",
 							"host": [
@@ -258,7 +179,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -309,7 +229,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -336,10 +255,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"household\": {\n    \"livelihood\": \"0\",\n    \"longitude\": \"0\",\n    \"latitude\": \"0\",\n    \"notes\": null,\n    \"country_specific_answers\": [\n      {\n        \"country_specific\": {\n          \"id\": 1,\n          \"type\": \"number\",\n          \"field\": \"IDPoor\"\n        },\n        \"answer\": null\n      },\n      {\n        \"country_specific\": {\n          \"id\": 2,\n          \"type\": \"text\",\n          \"field\": \"equityCardNo\"\n        },\n        \"answer\": null\n      }\n    ],\n    \"beneficiaries\": [\n      {\n        \"id\": null,\n        \"local_given_name\": \"First name\",\n        \"local_family_name\": \"Surname\",\n        \"en_given_name\": null,\n        \"en_family_name\": null,\n        \"gender\": \"1\",\n        \"date_of_birth\": \"13-05-2000\",\n        \"residency_status\": \"resident\",\n        \"status\": \"1\",\n        \"vulnerability_criteria\": [],\n        \"phones\": [\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Landline\"\n          },\n          {\n            \"number\": null,\n            \"prefix\": \"+855\",\n            \"proxy\": false,\n            \"type\": \"Mobile\"\n          }\n        ],\n        \"national_ids\": [\n          {\n            \"id_number\": null,\n            \"id_type\": \"ID Card\"\n          }\n        ],\n        \"profile\": {\n          \"photo\": \"\"\n        },\n        \"referral_type\": null,\n        \"referral_comment\": null\n      }\n    ],\n    \"income_level\": null,\n    \"household_locations\": [\n      {\n        \"id\": null,\n        \"location_group\": \"current\",\n        \"type\": \"residence\",\n        \"address\": {\n          \"id\": null,\n          \"number\": \"10\",\n          \"street\": \"Ulice\",\n          \"postcode\": \"60200\",\n          \"location\": {\n            \"adm1\": 1,\n            \"adm2\": 1,\n            \"adm3\": 1,\n            \"adm4\": 1\n          }\n        },\n        \"camp_address\": null\n      }\n    ],\n    \"food_consumption_score\": null,\n    \"coping_strategies_index\": null,\n    \"debt_level\": null,\n    \"support_received_types\": [\"1\"],\n    \"support_date_received\": null,\n    \"shelter_status\": \"1\",\n    \"assets\": [\"2\"]\n  },\n  \"projects\": [1]\n}"
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/households/1/changes",
 							"host": [
@@ -367,7 +282,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -394,12 +308,8 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendors?",
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/vendors",
 							"host": [
 								"{{prefix}}{{base_url}}"
 							],
@@ -435,7 +345,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -489,7 +398,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -499,7 +407,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -517,7 +424,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -544,10 +450,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/distributions/{{distribution_id}}/beneficiaries",
 							"host": [
@@ -570,7 +472,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -621,7 +522,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "137dd2d1-83af-4066-a907-1dddabb5138d",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -631,7 +531,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d0b8b829-f0bd-4954-971c-eb581728fa39",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -649,7 +548,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -676,7 +574,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export?type=xlsx&householdsTemplate=true",
 							"host": [
@@ -707,7 +604,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -739,8 +635,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"src": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -778,7 +674,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -842,7 +737,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -874,8 +768,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"src": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -917,7 +811,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -949,8 +842,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"src": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -984,7 +877,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1045,7 +937,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1077,8 +968,8 @@
 							"formdata": [
 								{
 									"key": "file",
-									"type": "file",
-									"src": ""
+									"value": "",
+									"type": "file"
 								}
 							]
 						},
@@ -1112,7 +1003,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1139,10 +1029,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/export/distribution?id=12&locale=en&type=pdf",
 							"host": [
@@ -1178,7 +1064,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1244,7 +1129,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1271,10 +1155,6 @@
 								"value": "application/json; charset=utf-8"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/location/upcoming_distribution",
 							"host": [
@@ -1306,7 +1186,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8cdce028-0ed8-4653-a725-f4398ed40b0f",
 								"exec": [
 									""
 								],
@@ -1440,13 +1319,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/smartcard/analytics/beneficiary/318009",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"smartcard",
+								"analytics",
+								"beneficiary",
+								"318009"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b8d57f2d-4fc6-4d87-913d-7831a254dc51",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1456,7 +1356,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "976d4888-52a1-443e-9cd1-09a2333f5816",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1466,11 +1365,20 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "f4c62cbf-bdca-4b5b-a264-4488ad91e370",
 				"type": "text/javascript",
 				"exec": [
 					"const user = pm.variables.get(\"wsse_user\");",
@@ -1539,7 +1447,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "4d5db017-efaf-4150-80a2-1d0752ec3e6f",
 				"type": "text/javascript",
 				"exec": [
 					""

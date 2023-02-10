@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7bf856f5-27d0-40f1-9744-988525e6d1fe",
+		"_postman_id": "36d7fac1-1eed-4547-8d40-1ce09ae13860",
 		"name": "Humansis web app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,7 +27,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\":\"{{jwt_user}}\",\n\t\"password\":\"{{jwt_password}}\"\n}",
+							"raw": "{\n\t\"username\":\"{{jwt_user}}\",\n\t\"password\":\"{{jwt_password}}\"\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -485,7 +485,7 @@
 							{
 								"key": "country",
 								"type": "text",
-								"value": "{{country}}"
+								"value": "SYR"
 							},
 							{
 								"key": "x-wsse",
@@ -1361,6 +1361,158 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "Scorings",
+			"item": [
+				{
+					"name": "Add new scoring",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "country",
+								"value": "SYR",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"name\" : \"SYR NES\",\n    \"content\" : \"UnVsZSB0eXBlLEZpZWxkIE5hbWUsVGl0bGUsT3B0aW9ucyxQb2ludHMKLCwsLApjYWxjdWxhdGlvbixnZW5kZXJPZkhlYWRPZkhvdXNlaG9sZCxHZW5kZXIgb2YgSGVhZCBvZiBIb3VzZWhvbGQsRmVtYWxlLDQKLCwsTWFsZSwxCiwsLCwKY2FsY3VsYXRpb24sdnVsbmVyYWJpbGl0eUhlYWRPZkhvdXNlaG9sZE5FUyxWdWxuZXJhYmlsaXR5IEhlYWQgb2YgSG91c2Vob2xkLENocm9uaWNhbGx5IGlsbCw1CiwsLFBlcnNvbiB3aXRoIGRpc2FiaWxpdHksNQosLCxJbmZhbnQsNgosLCxFbGRlcmx5LDQKLCwsUHJlZ25hbnQgb3IgbGFjdGF0aW5nIGZlbWFsZSw0CiwsLCwKY2FsY3VsYXRpb24sdnVsbmVyYWJpbGl0eU9mSG91c2Vob2xkTWVtYmVycyxWdWxuZXJhYmlsaXR5IG9mIEhvdXNlaG9sZCBNZW1iZXJzLENocm9uaWNhbGx5IGlsbCBvciBQZXJzb24gd2l0aCBkaXNhYmlsaXR5ICYgYWdlIDwgNjAsMgosLCxOTzogQ2hyb25pY2FsbHkgaWxsIG9yIFBlcnNvbiB3aXRoIGRpc2FiaWxpdHkgJiBhZ2UgPCA2MCwxCiwsLFByZWduYW50IG9yIGxhY3RhdGluZyBmZW1hbGUsMgosLCxOTzogUHJlZ25hbnQgb3IgbGFjdGF0aW5nIGZlbWFsZSwxCiwsLCwKY2FsY3VsYXRpb24sZGVwZW5kZW5jeVJhdGlvU3lyTkVTLERlcGVuZGVuY3kgcmF0aW8sZGl2aXNpb24gYnkgemVybyw2CiwsLDAsMAosLCwwPCBEUiA8PSAxLDEKLCwsMTwgRFIgPD0gMiwyCiwsLDI8IERSIDw9IDMsMwosLCwzPCBEUiA8PSA0LDQKLCwsNDwgRFIgPD0gNSw1CiwsLDUgPCBEUiw2CiwsLCwKZW51bSxIb3VzZWhvbGRTaGVsdGVyU3RhdHVzLFNoZWx0ZXIgdHlwZSxUZW50LDUKLCwsTWFrZXNoaWZ0IFNoZWx0ZXIsNAosLCxUcmFuc2l0aW9uYWwgU2hlbHRlciw0CiwsLEhvdXNlL0FwYXJ0bWVudCAtIFNldmVyZWx5IERhbWFnZWQsNQosLCxIb3VzZS9BcGFydG1lbnQgLSBNb2RlcmF0ZWx5IERhbWFnZWQsMgosLCxIb3VzZS9BcGFydG1lbnQgLSBOb3QgRGFtYWdlZCwxCiwsLFJvb20gb3IgU3BhY2UgaW4gUHVibGljIEJ1aWxkaW5nLDMKLCwsLApjb3VudHJ5U3BlY2lmaWMsUmVzaWRlbmNlIE93bmVyc2hpcCxSZXNpZGVuY2UgT3duZXJzaGlwLE93bmVkLDEKLCwsUmVudGVkLDQKLCwsSG9zdGVkLDQKLCwsSW5mb3JtYWxseSBPY2N1cGllZCAoV2l0aG91dCBPd25lcidzIFBlcm1pc3Npb24pLDYKLCwsLApjb3VudHJ5U3BlY2lmaWMsRGlzcGxhY2VtZW50IHN0YXR1cyxEaXNwbGFjZW1lbnQgc3RhdHVzLFJlc2lkZW50LDEKLCwsUmVzaWRlbnQgSG9zdGluZyBSZWZ1Z2Vlcy9JRFBzLDMKLCwsUmVmdWdlZXMsNAosLCxPbGQgSURQcyw0CiwsLE5ldyBJRFBzLDUKLCwsUmV0dXJuZWVzLDMKLCwsLApjb3JlSG91c2Vob2xkLGRlYnRMZXZlbCxEZWJ0LDEsMQosLCwyLDIKLCwsMywzCiwsLDQsNAosLCw1LDUKLCwsLApjb3VudHJ5U3BlY2lmaWMsTnVtYmVyIG9mIGFzc2V0cyxOdW1iZXIgb2YgYXNzZXRzLDEsLTIKLCwsMiwtMwosLCwzLC00CiwsLDQsLTUKLCwseCA+PSA1LC02CiwsLCwKY29yZUhvdXNlaG9sZCxhc3NldHMsQXNzZXRzLEEvQywtNTAKLCwsQ2FyLC01MAosLCwsCmNhbGN1bGF0aW9uLGluY29tZVNwZW50T25Gb29kLEluY29tZSBTcGVudCBvbiBGb29kLDAsNgosLCxNaXNzaW5nIHZhbHVlIGxvdywwCiwsLE1pc3NpbmcgdmFsdWUgaGlnaCw2CiwsLCI+MCw5NSIsNgosLCwiMCw4MS0wLDk1Iiw1CiwsLCIwLDY2LTAsODAiLDQKLCwsIjAsNTEtMCw2NSIsMwosLCwiMCwyNi0wLDUwIiwtNTAKLCwsIjwwLjI1IiwtNTAKLCwsLApjb3VudHJ5U3BlY2lmaWMsRW51bWVyYXRvciBjb21tZW50LEVudW1lcmF0b3IgY29tbWVudCxNb3N0IHZ1bG5lcmFibGUsMC4zCiwsLE1vZGVyYXRlbHkgdnVsbmVyYWJsZSwwLjIKLCwsTG93IFZ1bG5lcmFiaWxpdHksMC4xCg==\"}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/scoring-blueprints",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"scoring-blueprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate scoring",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "country",
+								"value": "SYR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/scoring-blueprints/{{id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"scoring-blueprints",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate previously deactivated scoring",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "country",
+								"value": "SYR",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"archived\": false\n}"
+						},
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/scoring-blueprints/{{id}}",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"scoring-blueprints",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of scorings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"value": "SYR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/scoring-blueprints",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"scoring-blueprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download scoring csv",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "country",
+								"value": "SYR",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{prefix}}{{base_url}}/{{api}}/{{firewall}}/scoring-blueprints/{{id}}/content",
+							"host": [
+								"{{prefix}}{{base_url}}"
+							],
+							"path": [
+								"{{api}}",
+								"{{firewall}}",
+								"scoring-blueprints",
+								"{{id}}",
+								"content"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
